@@ -1,0 +1,17 @@
+Ingredient(i1):
+  name: "Tomate"
+  
+Ingredient(i2):
+  name: "Jambon"
+  
+Ingredient(i3):
+  name: "Salade"
+  
+Ingredient(i4):
+  name: "Poulet"
+  
+Ingredient(i5):
+  name: "Emmental"
+  
+Ingredient(i6):
+  name: "Mozarella"

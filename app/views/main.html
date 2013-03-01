@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>#{get 'title' /}</title>
+<script src="@{'/public/javascripts/jquery-1.8.2.js'}"
+        type="text/javascript" charset="${_response_encoding}"></script>
+<script src="@{'/public/javascripts/bootstrap.js'}"
+        type="text/javascript" charset="${_response_encoding}"></script>
+<link rel="stylesheet" type="text/css" media="screen" href="@{'/public/stylesheets/main.css'}">
+<link rel="shortcut icon" type="image/png" href="@{'/public/images/favicon.png'}">
+<link rel="stylesheet" media="screen"
+		href="@{'/public/stylesheets/bootstrap.css'}">
+<link rel="stylesheet" media="screen"
+		href="@{'/public/stylesheets/bootstrap-responsive.css'}">
+
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+<!-- <h1>SODEXO - Service de réservation de sandwich</h1> -->
+<div id="wrap"> #{doLayout /}
+  <div id="push"></div>
+</div>
+<div id="footer"> Site réalisé par Nicolas HUMEAU & Jean-Philippe CHRISTMANN - Copyright © 2012 - #{a @Administration.sandwich()}Administration#{/a} </div>
+</div>
+<script type="text/javascript">
+
+$(document).ready(function () { 
+	
+    $('div div div div ul li').hover(
+        function () {
+            //show its submen
+            $('.sub-panier', this).fadeIn('fast');
+			//stop(true, true).delay(0).slideDown(100,'swing');
+ 
+        }, 
+        function () {
+            //hide its submenu
+            $('.sub-panier', this).stop().fadeOut();          
+        }
+    );
+     
+});
+
+var element = document.getElementById('clickme');
+
+element.onclick = function() {
+	$('div div div div ul li').hover(
+	        function () {
+	            //show its submen
+	            $('.sub-panier', this).fadeIn('fast');
+				//stop(true, true).delay(0).slideDown(100,'swing');
+	 
+	        }
+	    );   
+};
+
+</script>
+</body>
+</html>

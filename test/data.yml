@@ -1,0 +1,18 @@
+ Sandwich(s3):
+   name: "Sandwich au Thon"
+   description: "Craquez pour le Sandwich au thon et sa savoureuse recette."
+   prix: 2.30
+   firstInCarousel: ""
+   
+ Sandwich(s2):
+   name: "Sandwich au jambon"
+   description: "Le classique Sandwich au Jambon saura vous régaler avec son gout inimitable."
+   prix: 1.99
+   firstInCarousel: "active"
+
+   
+ Sandwich(s1):
+   name: "Panini Italien"
+   description: "Tout le savoir faire italien dans un panini unique."
+   prix: 2.50
+   firstInCarousel: ""

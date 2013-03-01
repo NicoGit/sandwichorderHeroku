@@ -1,0 +1,208 @@
+#{extends 'main.html' /}
+#{set title:'Les Sandwiches' /}
+<div class="navbar  navbar-inverse">
+   <div class="navbar-inner">
+      <div class="container"> 
+         
+         <!-- .btn-navbar is used as the toggle for collapsed navbar content --> 
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+         
+         <!-- Be sure to leave the brand out there if you want it shown --> 
+         <!-- Everything you want hidden at 940px or less, place within here -->
+         <div class="nav-collapse collapse">
+            <ul class="nav">
+               <li class="divider-vertical"></li>
+<li class="logo"><a href="@{Application.sandwich()}" id="lienLogo"><img src="/public/images/logo.png" id="logo"></a></li>               <li class="active"><a href="@{Application.sandwich()}">Les Sandwichs</a></li>
+               <li><a href="@{Application.commandes()}">Mes commandes</a></li>
+               <li><a href="@{Application.cafeteria()}">La Cafétéria</a></li>
+            </ul>
+            <ul class="nav pull-right">
+               <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte de ${userid} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.deconnect()}Deconnexion#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.sandwich()}Mon profil#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                  </ul>
+               </li>
+               <li class="dropdown panier"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/public/images/glyphicons_202_shopping_cart.png" id="img-cart"/><b class="caret"></b></a>
+                  <ul class="sub-panier dropdown-menu"" >
+                     #{if panier}
+                     <table class="table table-hover">
+                        <caption>
+                        ...
+                        </caption>
+                        <thead>
+                           <tr>
+                              <th>Nom</th>
+                              <th>Quantité</th>
+                              <th>Prix unitaire</th>
+                              <th>Date</th>
+                              <th>Supprimer</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <!-- Pied de tableau -->
+                           <tr>
+                              <th>Total</th>
+                              <th>${totalQuantity}</th>
+                              <th>${totalPrice} €</th>
+                              <th> </th>
+                              <th> </th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                        
+                        #{list panier, as:'sandwich'}
+                        <tr class="info">
+                           <td>${sandwich.reservedSandwich.name}</td>
+                           <td>${sandwich.quantity}</td>
+                           <td>${sandwich.reservedSandwich.prix} €</td>
+                           <td>${sandwich.date} </td>
+                           <td id="icon-delete">#{a @Application.deleteSandwichFromCart(sandwich.reservedSandwich.name, 0,sandwich.date)}<img src="/public/images/glyphicons_remove.png"/>#{/a}</td>
+                        </tr>
+                        #{/list}
+                           </tbody>
+                        
+                     </table>
+                     <a href="#myModal" data-toggle="modal">
+                     <button class="btn btn-primary pull-right" type="button" data-loading-text="Commande en cours...">Confirmer la commande</button>
+                     </a> #{/if}
+                     #{else}
+                     <table class="table table-hover">
+                        <caption>
+                        ...
+                        </caption>
+                        <thead>
+                           <tr>
+                              <th>Nom</th>
+                              <th>Quantité</th>
+                              <th>Prix unitaire</th>
+                              <th>Date</th>
+                              <th>Supprimer</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <!-- Pied de tableau -->
+                           <tr>
+                              <th>Total</th>
+                              <th>0</th>
+                              <th>0 €</th>
+                              <th> </th>
+                              <th> </th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                           <tr class="info" >
+                              <td colspan="5" id="empty-cart">Le panier est vide</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     #{/else}
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Le modal de confirmation du panier -->
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Confirmation de commande</h3>
+   </div>
+   <div class="modal-body">
+      <p>Vous avez commandé ${totalQuantity} sandwich(s) et vous devrez payer à la cafétéria la somme de : ${totalPrice} €.</p>
+      <p>Veuillez valider la commande ou cliquer sur Annuler</p>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <a href="@{Application.cartValidation()}" class="btn btn-primary">Commander</a> </div>
+</div>
+
+<!-- Le modal d'ajout de sandwiches --> 
+
+#{if sandwiches} 
+  #{list sandwiches, as:'sandwich'}
+  
+  #{form @Application.addSandwichToCart(sandwich.name,date,quantity,ketchup,mayo,moutarde)}
+<div id="${sandwich.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">${sandwich.name}</h3>
+   </div>
+   <div class="modal-body form-horizontal">
+      <div class="control-group">
+         <label class="control-label" for="date">Pour midi le : </label>
+         <div class="controls">
+            <input type="date" id="date" name="date" required>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="description">Quantité : </label>
+         <div class="controls">
+            <select id="description" name="quantity" required>
+               <option>1</option>
+               <option>2</option>
+               <option>3</option>
+               <option>4</option>
+               <option>5</option>
+               <option>6</option>
+               <option>7</option>
+               <option>8</option>
+               <option>9</option>
+               <option>10</option>
+            </select>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="sauce">Choisissez la sauce : </label>
+         <div class="controls">
+            <label class="checkbox inline" for="ket">
+               <input type="checkbox" name="ketchup" id="ket">
+               Ketchup </label>
+            <label class="checkbox inline">
+               <input type="checkbox" name="mayo">
+               Mayo </label>
+            <label class="checkbox inline">
+               <input type="checkbox" name="moutarde">
+               Moutarde </label>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Ajouter au panier" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!--  Listes des sandwiches pour navigateur -->
+<div class="row-fluid">
+   <div id="myCarousel" class="carousel slide">
+      <div class="carousel-inner"> #{if sandwiches}      
+         #{list sandwiches, as:'sandwich'}
+         <div class="item ${sandwich.firstInCarousel}"> <img src="/public/images/sandwich1.jpg" alt="">
+            <div class="container">
+               <div class="carousel-caption">
+                  <h1>${sandwich.name}</h1>
+                  <p class="lead">Déscription : ${sandwich.description}</p>
+                  <p class="lead">Prix : ${sandwich.prix} €</p>
+                  #{if sandwich.listIngredient}
+                  <p class="lead"> Ingredients : #{list sandwich.listIngredient, as:'ingredient'} ${ingredient} #{/list} </p>
+                  #{/if} <a class="btn btn-large btn-primary" href="#${sandwich.id}" data-toggle="modal">Ajouter au panier</a> </div>
+            </div>
+         </div>
+         #{/list} </div>
+      #{/if} <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a> <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a> </div>
+   <!-- /.carousel --> 
+</div>

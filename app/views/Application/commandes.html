@@ -1,0 +1,264 @@
+#{extends 'main.html' /}
+#{set title:'Mes Commandes' /}
+<div class="navbar  navbar-inverse">
+   <div class="navbar-inner">
+      <div class="container"> 
+         
+         <!-- .btn-navbar is used as the toggle for collapsed navbar content --> 
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+         
+         <!-- Be sure to leave the brand out there if you want it shown --> 
+         <!-- Everything you want hidden at 940px or less, place within here -->
+         <div class="nav-collapse collapse">
+            <ul class="nav">
+               <li class="divider-vertical"></li>
+<li class="logo"><a href="@{Application.sandwich()}" id="lienLogo"><img src="/public/images/logo.png" id="logo"></a></li>               <li><a href="@{Application.sandwich()}">Les Sandwichs</a></li>
+               <li class="active"><a href="@{Application.commandes()}">Mes commandes</a></li>
+               <li><a href="@{Application.cafeteria()}">La Cafétéria</a></li>
+            </ul>
+            <ul class="nav pull-right">
+               <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte de ${userid} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.deconnect()}Deconnexion#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.sandwich()}Mon profil#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                  </ul>
+               </li>
+               <li class="dropdown panier"> <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="/public/images/glyphicons_202_shopping_cart.png" id="img-cart"/><b class="caret"></b></a>
+                  <ul class="sub-panier dropdown-menu"" >
+                     #{if panier}
+                     <table class="table table-hover">
+                        <caption>
+                        ...
+                        </caption>
+                        <thead>
+                           <tr>
+                              <th>Nom</th>
+                              <th>Quantité</th>
+                              <th>Prix unitaire</th>
+                              <th>Date</th>
+                              <th>Supprimer</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <!-- Pied de tableau -->
+                           <tr>
+                              <th>Total</th>
+                              <th>${totalQuantity}</th>
+                              <th>${totalPrice} €</th>
+                              <th> </th>
+                              <th> </th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                        
+                        #{list panier, as:'sandwich'}
+                        <tr class="info">
+                           <td>${sandwich.reservedSandwich.name}</td>
+                           <td>${sandwich.quantity}</td>
+                           <td>${sandwich.reservedSandwich.prix} €</td>
+                           <td>${sandwich.date} </td>
+                           <td id="icon-delete">#{a @Application.deleteSandwichFromCart(sandwich.reservedSandwich.name, 0)}<img src="/public/images/glyphicons_remove.png"/>#{/a}</td>
+                        </tr>
+                        #{/list}
+                           </tbody>
+                        
+                     </table>
+                     <a href="#myModal" data-toggle="modal">
+                     <button class="btn btn-primary pull-right" type="button" data-loading-text="Commande en cours...">Confirmer la commande</button>
+                     </a> #{/if}
+                     #{else}
+                     <table class="table table-hover">
+                        <caption>
+                        ...
+                        </caption>
+                        <thead>
+                           <tr>
+                              <th>Nom</th>
+                              <th>Quantité</th>
+                              <th>Prix unitaire</th>
+                              <th>Date</th>
+                              <th>Supprimer</th>
+                           </tr>
+                        </thead>
+                        <tfoot>
+                           <!-- Pied de tableau -->
+                           <tr>
+                              <th>Total</th>
+                              <th>0</th>
+                              <th>0 €</th>
+                              <th> </th>
+                              <th> </th>
+                           </tr>
+                        </tfoot>
+                        <tbody>
+                           <tr class="info" >
+                              <td colspan="5" id="empty-cart">Pas de commandes</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     #{/else}
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Le modal de confirmation du panier -->
+
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+      <h3>Confirmation de commande</h3>
+   </div>
+   <div class="modal-body">
+      <p>Vous avez commandé ${totalQuantity} sandwich(s) et vous devrez payer à la cafétéria la somme de : ${totalPrice} €.</p>
+      <p>Veuillez valider la commande ou cliquer sur Annuler</p>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <a href="@{Application.cartValidationFromCommande()}" class="btn btn-primary">Commander</a> </div>
+</div>
+
+<!-- Les commandes -->
+
+<div class="row-fluid">
+   <div class="span10 offset1">
+      <h1 class="blue">Mes commandes du jour</h1>
+      #{if todayCommandes}
+      <table class="table table-hover">
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>${todayTotalQuantityCommande}</th>
+               <th>${todayTotalPriceCommande} €</th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+         
+         #{list todayCommandes, as:'commande'}
+         <tr class="info">
+            <td>${commande.reservedSandwich.name}</td>
+            <td>${commande.quantity}</td>
+            <td>${commande.reservedSandwich.prix} €</td>
+            <td>${commande.date} </td>
+         </tr>
+         #{/list}
+            </tbody>
+         
+      </table>
+      #{/if}
+      #{else}
+      <table class="table table-hover">
+         <caption>
+         ...
+         </caption>
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>0</th>
+               <th>0 €</th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+            <tr class="info" >
+               <td colspan="4" id="empty-cart">Pas de commandes pour aujourd'hui</td>
+            </tr>
+         </tbody>
+      </table>
+      #{/else} </div>
+</div>
+<div class="row-fluid">
+   <div class="span10 offset1">
+      <h1 class="blue">Mes autres commandes</h1>
+      #{if commandes}
+      <table class="table table-hover">
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>${totalQuantityCommande}</th>
+               <th>${totalPriceCommande} €</th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+         
+         #{list commandes, as:'commande'}
+         <tr class="info">
+            <td>${commande.reservedSandwich.name}</td>
+            <td>${commande.quantity}</td>
+            <td>${commande.reservedSandwich.prix} €</td>
+            <td>${commande.date} </td>
+         </tr>
+         #{/list}
+            </tbody>
+         
+      </table>
+      #{/if}
+      #{else}
+      <table class="table table-hover">
+         <caption>
+         ...
+         </caption>
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>0</th>
+               <th>0 €</th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+            <tr class="info" >
+               <td colspan="4" id="empty-cart">Pas de commandes pour les autres jours</td>
+            </tr>
+         </tbody>
+      </table>
+      #{/else} </div>
+</div>
+</div>

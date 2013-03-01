@@ -1,0 +1,271 @@
+#{extends 'main.html' /}
+#{set title:'Les Sandwiches' /}
+<div class="navbar  navbar-inverse">
+   <div class="navbar-inner">
+      <div class="container"> 
+         
+         <!-- .btn-navbar is used as the toggle for collapsed navbar content --> 
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+         
+         <!-- Be sure to leave the brand out there if you want it shown --> 
+         <!-- Everything you want hidden at 940px or less, place within here -->
+         <div class="nav-collapse collapse">
+            <ul class="nav">
+               <li class="divider-vertical"></li>
+<li class="logo"><a href="@{Application.sandwich()}" id="lienLogo"><img src="/public/images/logo.png" id="logo"></a></li>               <li class="active"><a href="@{Administration.sandwich()}">Les Sandwichs</a></li>
+               <li><a href="@{Administration.commandes()}">Les Commandes</a></li>
+            </ul>
+            <ul class="nav pull-right">
+               <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte de ${userid} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.deconnect()}Deconnexion#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.sandwich()}Mon profil#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Le modal de modification des ingredients --> 
+
+#{if ingredients} 
+  #{list ingredients, as:'ingredient'}
+  #{form @Administration.modifyIngredientName(ingredient.name,newName)}
+<div id="${ingredient.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modification</h3>
+   </div>
+   <div class="modal-body form-horizontal">
+      <div class="control-group">
+         <label class="control-label" for="nom">Nom de l'ingredient :</label>
+         <div class="controls">
+            <input type="text" value="${ingredient.name}" id="nom" name="newName">
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Appliquer la modification" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!-- Le modal de modification des sandwiches --> 
+
+#{if sandwiches} 
+  #{list sandwiches, as:'sandwich'}
+  #{form @Administration.modifySandwichInDB(sandwich.name)}
+<div id="sandwiche${sandwich.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modification du sandwich</h3>
+   </div>
+   <div class="modal-body form-horizontal">
+      <div class="control-group">
+         <label class="control-label" for="nom">Nom du sandwich :</label>
+         <div class="controls">
+            <input type="text" value="${sandwich.name}" id="nom" name="newName">
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="description">Description :</label>
+         <div class="controls">
+            <input type="text" value="${sandwich.description}" id="description" name="description">
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="prix">Prix :</label>
+         <div class="controls">
+            <input type="text"  value="${sandwich.prix}" id="prix" name="prix" >
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" class="checkbox">
+         Disponible :
+         </label>
+         <div class="controls">
+            <input type="checkbox" name="disponible" #{if sandwich.disponible} checked #{/if} >
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Appliquer la modification" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!-- Le modal d'ajout d'un ingredient --> 
+
+#{form @Administration.addIngredientToDB(newName)}
+<div id="ajoutIngredient" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Ajouter un ingredient</h3>
+   </div>
+   <div class="modal-body">
+      <label for="nom">Nom de l'ingredient :</label>
+      <input type="text" id="nom" name="newName" required/>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Ajouter à la liste" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form} 
+
+<!-- Le modal d'ajout d'un sandwich --> 
+
+#{form @Administration.addSandwichToDB()}
+<div id="ajoutSandwich" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Ajouter un sandwich</h3>
+   </div>
+   <div class="modal-body">
+      <label for="nom">Nom du sandwich :</label>
+      <input type="text" id="nom" name="newName" required>
+      <label for="description">Description :</label>
+      <input type="text" id="description" name="description">
+      <label for="prix">Prix :</label>
+      <input type="text"  id="prix" name="prix" required>
+      <label class="checkbox">Disponible actuellement
+         <input type="checkbox" name="disponible" #{if sandwich.disponible} checked #{/if} >
+      </label>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Ajouter à la liste" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form} 
+
+<!-- Le modal d'ajout d'un ingredient au sandwich --> 
+
+#{if sandwiches} 
+  #{list sandwiches, as:'sandwich'}
+  #{form @Administration.addIngredientToSandwich(sandwich.name)}
+<div id="ajoutIngredient${sandwich.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Ajout d'un ingredient</h3>
+   </div>
+   <div class="modal-body">
+      <select name="nameIngredient">
+         
+    #{if ingredients}
+    #{list ingredients, as:'ingredient'}
+	  
+         <option>${ingredient.name}</option>
+         
+	#{/list}
+	#{/if}
+	
+      </select>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Ajouter au sandwich" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!-- Le modal de suppression d'un ingredient au sandwich --> 
+
+#{if sandwiches} 
+  #{list sandwiches, as:'sandwich'}
+  #{form @Administration.removeIngredientToSandwich(sandwich.name)}
+<div id="supIngredient${sandwich.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Suppression d'un ingredient</h3>
+   </div>
+   <div class="modal-body">
+      <select name="nameIngredient">
+         
+    #{if sandwich.listIngredient}
+    #{list sandwich.listIngredient, as:'ingredient'}
+	  
+         <option>${ingredient.name}</option>
+         
+	#{/list}
+	#{/if}
+	
+      </select>
+   </div>
+   <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+      <input id="clickme" type="submit" value="Supprimer du sandwich" class="btn btn-primary"/>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!--  Listes des sandwiches  -->
+<div class="row-fluid">
+   <div class="span6 offset1"> #{if sandwiches}
+      <h1 class="blue">Listes des sandwichs</h1>
+      <div class="accordion" id="accordion1"> #{list sandwiches, as:'sandwiche'}
+         <div class="accordion-group">
+            <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapsesandwiche${sandwiche.id}"> ${sandwiche.name} </a> </div>
+            <div id="collapsesandwiche${sandwiche.id}" class="accordion-body collapse">
+               <div class="accordion-inner">
+                  <p> Description : ${sandwiche.description} <br/>
+                     Ingrédients : #{list sandwiche.listIngredient, as:'ingredient'}
+                     ${ingredient.name} 
+                     #{/list}<br/>
+                     Prix : ${sandwiche.prix} € <br/>
+                     Disponible : #{if sandwiche.disponible} Oui
+                     #{/if}
+                     #{else}
+                     Non
+                     #{/else} </p>
+                  <a class="btn" id="bleu"  href="@{Administration.deleteSandwichFromDB(sandwiche.name)}">Supprimer</a> <a class="btn" id="bleu" href="#sandwiche${sandwiche.id}" role="button" data-toggle="modal">Modifier</a> <a class="btn" id="bleu" href="#ajoutIngredient${sandwiche.id}" role="button" data-toggle="modal">Aj. un Ingredient</a> #{if sandwiche.listIngredient}<a class="btn" id="bleu" href="#supIngredient${sandwiche.id}"  role="button" data-toggle="modal">Suppr. un Ingredient</a>#{/if} </div>
+            </div>
+         </div>
+         #{/list} </div>
+      #{/if}
+      #{else}
+      <div class=well> Il n'y à pas de sandwiche dans la base de donnée actuellement. </div>
+      #{/else} <a href="#ajoutSandwich" class="btn btn-primary" role="button" data-toggle="modal">Ajouter un nouveau sandwich</a> </div>
+   <div class="span3 offset1"> 
+      
+      <!--  Listes des ingredients  --> 
+      
+      #{if ingredients}
+      <h1 class="blue">Listes des ingrédients</h1>
+      <div class="accordion" id="accordion2"> #{list ingredients, as:'ingredient'}
+         <div class="accordion-group">
+            <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapse${ingredient.id}"> ${ingredient.name} </a> </div>
+            <div id="collapse${ingredient.id}" class="accordion-body collapse">
+               <div class="accordion-inner">
+	               <p> #{list ingredient.listSandwich, as:'sandwich'}
+	                     ${sandwich.name}</br> 
+	                     #{/list}
+	               </p>
+<!--                   <p> La on devrait mettre les sandwiches liés.</p> -->
+                  <a class="btn" id="bleu" href="@{Administration.deleteIngredientFromDB(ingredient.name)}">Supprimer</a> <a class="btn" id="bleu" href="#${ingredient.id}" role="button" data-toggle="modal">Modifier</a> </div>
+            </div>
+         </div>
+         #{/list} </div>
+      #{/if}
+      #{else}
+      <div class="well"> Il n'y à pas d'ingredient dans la base de donnée actuellement. </div>
+      #{/else} <a href="#ajoutIngredient" class="btn btn-primary" role="button" data-toggle="modal">Ajouter un nouvel ingredient</a> </div>
+</div>

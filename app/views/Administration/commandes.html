@@ -1,0 +1,366 @@
+#{extends 'main.html' /}
+#{set title:'Les Commandes' /}
+<div class="navbar  navbar-inverse">
+   <div class="navbar-inner">
+      <div class="container"> 
+         
+         <!-- .btn-navbar is used as the toggle for collapsed navbar content --> 
+         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse"> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a> 
+         
+         <!-- Be sure to leave the brand out there if you want it shown --> 
+         <!-- Everything you want hidden at 940px or less, place within here -->
+         <div class="nav-collapse collapse">
+            <ul class="nav">
+               <li class="divider-vertical"></li>
+               <li class="logo"><a href="@{Application.sandwich()}" id="lienLogo"><img src="/public/images/logo.png" id="logo"></a></li>
+               <li><a href="@{Administration.sandwich()}">Les Sandwichs</a></li>
+               <li class="active"><a href="@{Administration.commandes()}">Les Commandes</a></li>
+            </ul>
+            <ul class="nav pull-right">
+               <li class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Compte de ${userid} <b class="caret"></b></a>
+                  <ul class="dropdown-menu">
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.deconnect()}Deconnexion#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                     <li class="socials"><!-- Place this tag where you want the +1 button to render --> 
+                        #{a @Application.sandwich()}Mon profil#{/a}
+                        <g:plusone annotation="inline" width="150"></g:plusone>
+                     </li>
+                  </ul>
+               </li>
+            </ul>
+         </div>
+      </div>
+   </div>
+</div>
+
+<!-- Le modal de modification des commandes d'aujourd'hui --> 
+
+#{if todayCommandes} 
+  #{list todayCommandes, as:'commande'} 
+  #{form @Administration.modifyReservedSandwich(date, quantity,nameSandwich,commande.id)}
+<div id="commande${commande.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modification de la commande</h3>
+   </div>
+   <div class="modal-body form-horizontal">
+      <div class="control-group">
+         <label class="control-label" for="nom">Nom du sandwich :</label>
+         <div class="controls">
+            <select name="nameSandwich" id="nom">
+               
+		    #{if sandwiches}
+		    #{list sandwiches, as:'sandwich'}
+			  
+               <option #{if sandwich.name==commande.reservedSandwich.name} selected #{/if}>${sandwich.name}</option>
+               
+			#{/list}
+			#{/if}
+	
+            </select>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="quantity">Quantité :</label>
+         <div class="controls">
+            <select name="quantity" id="quantity">
+               <option #{if 1==commande.quantity} selected #{/if}>1</option>
+               <option #{if 2==commande.quantity} selected #{/if}>2</option>
+               <option #{if 3==commande.quantity} selected #{/if}>3</option>
+               <option #{if 4==commande.quantity} selected #{/if}>4</option>
+               <option #{if 5==commande.quantity} selected #{/if}>5</option>
+               <option #{if 6==commande.quantity} selected #{/if}>6</option>
+               <option #{if 7==commande.quantity} selected #{/if}>7</option>
+               <option #{if 8==commande.quantity} selected #{/if}>8</option>
+               <option #{if 9==commande.quantity} selected #{/if}>9</option>
+               <option #{if 10==commande.quantity} selected #{/if}>10</option>
+            </select>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="prix">Prix unitaire : ${commande.reservedSandwich.prix}</label>
+         <div class="controls"> </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="date">Date : </label>
+         <div class="controls">
+            <input type="date" min="13-11-2012" max="20-11-2012" name="date" value="${commande.toRFCDate()}" required>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+         <input id="clickme" type="submit" value="Appliquer la modification" class="btn btn-primary"/>
+      </div>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!-- Le modal de modification des commandes des autres jours --> 
+
+#{if commandes} 
+  #{list commandes, as:'commande'} 
+  #{form @Administration.modifyReservedSandwich(date, quantity,nameSandwich,commande.id)}
+<div id="commande${commande.id}" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+   <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Modification de la commande</h3>
+   </div>
+   <div class="modal-body form-horizontal">
+      <div class="control-group">
+         <label class="control-label" for="nom">Nom du sandwich :</label>
+         <div class="controls">
+            <select name="nameSandwich" id="nom">
+               
+		    #{if sandwiches}
+		    #{list sandwiches, as:'sandwich'}
+			  
+               <option #{if sandwich.name==commande.reservedSandwich.name} selected #{/if}>${sandwich.name}</option>
+               
+			#{/list}
+			#{/if}
+	
+            </select>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="quantity">Quantité :</label>
+         <div class="controls">
+            <select name="quantity" id="quantity">
+               <option #{if 1==commande.quantity} selected #{/if}>1</option>
+               <option #{if 2==commande.quantity} selected #{/if}>2</option>
+               <option #{if 3==commande.quantity} selected #{/if}>3</option>
+               <option #{if 4==commande.quantity} selected #{/if}>4</option>
+               <option #{if 5==commande.quantity} selected #{/if}>5</option>
+               <option #{if 6==commande.quantity} selected #{/if}>6</option>
+               <option #{if 7==commande.quantity} selected #{/if}>7</option>
+               <option #{if 8==commande.quantity} selected #{/if}>8</option>
+               <option #{if 9==commande.quantity} selected #{/if}>9</option>
+               <option #{if 10==commande.quantity} selected #{/if}>10</option>
+            </select>
+         </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="prix">Prix unitaire : ${commande.reservedSandwich.prix}</label>
+         <div class="controls"> </div>
+      </div>
+      <div class="control-group">
+         <label class="control-label" for="date">Date : </label>
+         <div class="controls">
+            <input type="date" min="13-11-2012" max="20-11-2012" name="date" value="${commande.toRFCDate()}" required>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Annuler</button>
+         <input id="clickme" type="submit" value="Appliquer la modification" class="btn btn-primary"/>
+      </div>
+   </div>
+</div>
+#{/form}
+  #{/list}
+  #{/if} 
+
+<!-- Les commandes -->
+
+<div class="row-fluid">
+   <div class="span10 offset1">
+      <h1 class="blue">Les commandes du jour</h1>
+      #{if todayCommandes}
+      <table class="table table-hover">
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Utilisateur</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+               <th>Modifier</th>
+               <th>Supprimer</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>${todayTotalQuantityCommande}</th>
+               <th> </th>
+               <th>${todayTotalPriceCommande} €</th>
+               <th> </th>
+               <th> </th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+         
+         #{list todayCommandes, as:'commande'}
+         <tr class="info">
+            <td>${commande.reservedSandwich.name}</td>
+            <td>${commande.quantity}</td>
+            <td>${commande.user.name}, ${commande.user.forename}</td>
+            <td>${commande.reservedSandwich.prix} €</td>
+            <td>${commande.date} </td>
+            <td><a class="btn" id="bleu" href="#commande${commande.id}" role="button" data-toggle="modal">Modifier</a></td>
+            <td><a class="btn" id="bleu"  href="@{Administration.deleteReservedSandwich(commande.id)}">Supprimer</a></td>
+         </tr>
+         #{/list}
+            </tbody>
+         
+      </table>
+      #{/if}
+      #{else}
+      <table class="table table-hover">
+         <thead>
+            <tr>
+               <th>Nom</th>
+               <th>Quantité</th>
+               <th>Utilisateur</th>
+               <th>Prix unitaire</th>
+               <th>Date</th>
+               <th>Modifier</th>
+               <th>Supprimer</th>
+            </tr>
+         </thead>
+         <tfoot>
+            <!-- Pied de tableau -->
+            <tr>
+               <th>Total</th>
+               <th>0</th>
+               <th> </th>
+               <th>0 €</th>
+               <th> </th>
+               <th> </th>
+               <th> </th>
+            </tr>
+         </tfoot>
+         <tbody>
+            <tr class="info" >
+               <td colspan="7" id="empty-cart">Pas de commandes pour aujourd'hui</td>
+            </tr>
+         </tbody>
+      </table>
+      #{/else} </div>
+</div>
+
+<!--  Les autres commandes -->
+
+<div class="row-fluid">
+   <div class="span10 offset1"> #{if sandwiches}
+      <h1 class="blue">Les autres commandes</h1>
+      <div class="accordion" id="accordion1">
+         <div class="accordion-group">
+            <div class="accordion-heading"> <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#otherCommand"> Quantité totale : ${totalQuantityCommande}, Prix total : ${totalPriceCommande} € </a> </div>
+            <div id="otherCommand" class="accordion-body collapse">
+               <div class="accordion-inner"> #{if commandes}
+                  <table class="table table-hover">
+                     <thead>
+                        <tr>
+                           <th>Nom</th>
+                           <th>Quantité</th>
+                           <th>Utilisateur</th>
+                           <th>Prix unitaire</th>
+                           <th>Date</th>
+                           <th>Modifier</th>
+                           <th>Supprimer</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <!-- Pied de tableau -->
+                        <tr>
+                           <th>Total</th>
+                           <th>${totalQuantityCommande}</th>
+                           <th> </th>
+                           <th>${totalPriceCommande} €</th>
+                           <th> </th>
+                           <th> </th>
+                           <th> </th>
+                        </tr>
+                     </tfoot>
+                     <tbody>
+                     
+                     #{list commandes, as:'commande'}
+                     <tr class="info">
+                        <td>${commande.reservedSandwich.name}</td>
+                        <td>${commande.quantity}</td>
+                        <td>${commande.user.name}, ${commande.user.forename}</td>
+                        <td>${commande.reservedSandwich.prix} €</td>
+                        <td>${commande.date} </td>
+                        <td><a class="btn" id="bleu" href="#commande${commande.id}" role="button" data-toggle="modal">Modifier</a></td>
+                        <td><a class="btn" id="bleu"  href="@{Administration.deleteReservedSandwich(commande.id)}">Supprimer</a></td>
+                     </tr>
+                     #{/list}
+                        </tbody>
+                     
+                  </table>
+                  #{/if}
+                  #{else}
+                  <table class="table table-hover">
+                     <caption>
+                     ...
+                     </caption>
+                     <thead>
+                        <tr>
+                           <th>Nom</th>
+                           <th>Quantité</th>
+                           <th>Utilisateur</th>
+                           <th>Prix unitaire</th>
+                           <th>Date</th>
+                           <th>Modifier</th>
+                           <th>Supprimer</th>
+                        </tr>
+                     </thead>
+                     <tfoot>
+                        <!-- Pied de tableau -->
+                        <tr>
+                           <th>Total</th>
+                           <th>0</th>
+                           <th> </th>
+                           <th>0 €</th>
+                           <th> </th>
+                           <th> </th>
+                           <th> </th>
+                        </tr>
+                     </tfoot>
+                     <tbody>
+                        <tr class="info" >
+                           <td colspan="7" id="empty-cart">Pas de commandes pour les autres jours</td>
+                        </tr>
+                     </tbody>
+                  </table>
+                  #{/else} </div>
+            </div>
+         </div>
+      </div>
+      #{/if}
+      #{else}
+      <div class=well> Il n'y a pas d'autre commandes. </div>
+      #{/else} </div>
+</div>
+#{if commandesGraph}
+<div id="chart_div" style="width: 900px; height: 500px;" ></div>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script> 
+<script type="text/javascript">
+      google.load("visualization", "1", {packages:["corechart"]});
+      google.setOnLoadCallback(drawChart);
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['Jour'#{list commandesGraph, as:'commande'}#{if commande.date.equals("1")}, '${commande.reservedSandwich.name}' #{/if} #{/list}],
+          ['Lundi'#{list commandesGraph, as:'commande'}#{if commande.date.equals("1")}, ${commande.quantity} #{/if} #{/list}],
+          ['Mardi'#{list commandesGraph, as:'commande'}#{if commande.date.equals("2")}, ${commande.quantity} #{/if} #{/list}],
+          ['Mercredi'#{list commandesGraph, as:'commande'}#{if commande.date.equals("3")}, ${commande.quantity} #{/if} #{/list}],
+          ['Jeudi'#{list commandesGraph, as:'commande'}#{if commande.date.equals("4")}, ${commande.quantity} #{/if} #{/list}],
+          ['Vendredi'#{list commandesGraph, as:'commande'}#{if commande.date.equals("5")}, ${commande.quantity} #{/if} #{/list}]
+        ]);
+
+        var options = {
+          title: 'Ventes de la semaine dernière',
+          hAxis: {title: 'Jour', titleTextStyle: {color: 'black'}}
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script> 
+#{/if} 
