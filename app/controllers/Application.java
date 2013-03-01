@@ -73,7 +73,7 @@ public class Application extends Controller {
     	 
     	 String todayDate = dateFormat.format(actuelle);
 		
-    	 User user = new User("jpasto09", "Le pouple", "secret", "jp.lepoulpe@hotmail.com",true).save();
+    	 //User user = new User("jpasto09", "Le pouple", "secret", "jp.lepoulpe@hotmail.com",true).save();
     	 List<Sandwich> s = Sandwich.findAll();
     	 List<Sandwich> sandwiches = new ArrayList<Sandwich>();
     	 for (Sandwich sandwich : s) {
