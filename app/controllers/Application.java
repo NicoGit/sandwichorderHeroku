@@ -147,10 +147,10 @@ public class Application extends Controller {
     	double todayTotalPriceCommande = 0;
     	int todayTotalQuantityCommande = 0;
     	
-//    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
-//    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
-//    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
-//    	
+    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
+    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
+    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
+    	
 //    	if (allCommandes!=null) {
 //        	for (ReservedSandwiches commande : allCommandes) {
 //        		if (commande.user.iden.equals(userid)) {
