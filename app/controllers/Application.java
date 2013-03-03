@@ -113,69 +113,68 @@ public class Application extends Controller {
     	String email = Cache.get(session.getId()+"EMAIL", String.class);
     	String status = Cache.get(session.getId()+"STATUS", String.class);
     	
-//    	Date actuelle = new Date();
-//     	
-//   	 	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-//   	 
-//   	 	String todayDate = dateFormat.format(actuelle);
+    	Date actuelle = new Date();
+     	
+   	 	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+   	 
+   	 	String todayDate = dateFormat.format(actuelle);
     	
-    	String todayDate = "03-03-2013";
-    	
-    	List<Sandwich> sandwiches = Sandwich.findAll();
-    	
-    	List<ReservedSandwichesCache> reservedSandwiches = Cache.get(session.getId()+"cachedSandwich", List.class);
-    	
-    	List<ReservedSandwichesCache> panier = new ArrayList<ReservedSandwichesCache>();
-    	
-    	double totalPrice = 0;
-    	int totalQuantity = 0;
-    	
-    	if (reservedSandwiches!=null) {
-    	for (ReservedSandwichesCache reservedSandwichCache : reservedSandwiches) {
-			if (reservedSandwichCache.quantity!=0) {
-				panier.add(reservedSandwichCache);
-				totalPrice += reservedSandwichCache.reservedSandwich.prix*reservedSandwichCache.quantity;
-				totalQuantity += reservedSandwichCache.quantity;
-			}
-		}
-    	}
-    	
-    	// On limite à deux décimales
-    	
-    	totalPrice = Math.floor(Math.round(100*totalPrice))/100;
-    	
-    	double totalPriceCommande = 0;
-    	int totalQuantityCommande = 0;
-    	double todayTotalPriceCommande = 0;
-    	int todayTotalQuantityCommande = 0;
-    	
-    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
-    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
-    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
-    	
-    	if (allCommandes!=null) {
-        	for (ReservedSandwiches commande : allCommandes) {
-        		if (commande.user.iden.equals(userid)) {
-        			if(commande.date.equals(todayDate)) {
-    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-    				todayTotalQuantityCommande += commande.quantity;
-    				todayCommandes.add(commande);
-        			}
-        			else {
-        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-        				totalQuantityCommande += commande.quantity;
-        				commandes.add(commande);
-        			}
-    				
-        		}
-    		}
-        }
-    	
-    	totalPriceCommande = Math.floor(Math.round(100*totalPriceCommande))/100;
-    	todayTotalPriceCommande = Math.floor(Math.round(100*todayTotalPriceCommande))/100;
-    	
-        render(sandwiches,panier,totalPrice,totalQuantity,userid,commandes,totalPriceCommande,totalQuantityCommande,todayDate,todayCommandes,todayTotalPriceCommande,todayTotalQuantityCommande);
-    	
+//    	List<Sandwich> sandwiches = Sandwich.findAll();
+//    	
+//    	List<ReservedSandwichesCache> reservedSandwiches = Cache.get(session.getId()+"cachedSandwich", List.class);
+//    	
+//    	List<ReservedSandwichesCache> panier = new ArrayList<ReservedSandwichesCache>();
+//    	
+//    	double totalPrice = 0;
+//    	int totalQuantity = 0;
+//    	
+//    	if (reservedSandwiches!=null) {
+//    	for (ReservedSandwichesCache reservedSandwichCache : reservedSandwiches) {
+//			if (reservedSandwichCache.quantity!=0) {
+//				panier.add(reservedSandwichCache);
+//				totalPrice += reservedSandwichCache.reservedSandwich.prix*reservedSandwichCache.quantity;
+//				totalQuantity += reservedSandwichCache.quantity;
+//			}
+//		}
+//    	}
+//    	
+//    	// On limite à deux décimales
+//    	
+//    	totalPrice = Math.floor(Math.round(100*totalPrice))/100;
+//    	
+//    	double totalPriceCommande = 0;
+//    	int totalQuantityCommande = 0;
+//    	double todayTotalPriceCommande = 0;
+//    	int todayTotalQuantityCommande = 0;
+//    	
+//    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
+//    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
+//    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
+//    	
+//    	if (allCommandes!=null) {
+//        	for (ReservedSandwiches commande : allCommandes) {
+//        		if (commande.user.iden.equals(userid)) {
+//        			if(commande.date.equals(todayDate)) {
+//    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+//    				todayTotalQuantityCommande += commande.quantity;
+//    				todayCommandes.add(commande);
+//        			}
+//        			else {
+//        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+//        				totalQuantityCommande += commande.quantity;
+//        				commandes.add(commande);
+//        			}
+//    				
+//        		}
+//    		}
+//        }
+//    	
+//    	totalPriceCommande = Math.floor(Math.round(100*totalPriceCommande))/100;
+//    	todayTotalPriceCommande = Math.floor(Math.round(100*todayTotalPriceCommande))/100;
+//    	
+//        render(sandwiches,panier,totalPrice,totalQuantity,userid,commandes,totalPriceCommande,totalQuantityCommande,todayDate,todayCommandes,todayTotalPriceCommande,todayTotalQuantityCommande);
+//    	
+   	 	render();
     	
     }  
 
