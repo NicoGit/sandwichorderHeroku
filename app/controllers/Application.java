@@ -147,30 +147,30 @@ public class Application extends Controller {
     	double todayTotalPriceCommande = 0;
     	int todayTotalQuantityCommande = 0;
     	
-    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
-    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
-    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
-    	
-    	if (allCommandes!=null) {
-        	for (ReservedSandwiches commande : allCommandes) {
-        		if (commande.user.iden.equals(userid)) {
-        			if(commande.date.equals(todayDate)) {
-    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-    				todayTotalQuantityCommande += commande.quantity;
-    				todayCommandes.add(commande);
-        			}
-        			else {
-        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-        				totalQuantityCommande += commande.quantity;
-        				commandes.add(commande);
-        			}
-    				
-        		}
-    		}
-        }
-    	
-    	totalPriceCommande = Math.floor(Math.round(100*totalPriceCommande))/100;
-    	todayTotalPriceCommande = Math.floor(Math.round(100*todayTotalPriceCommande))/100;
+//    	List<ReservedSandwiches> allCommandes = ReservedSandwiches.find("order by date").fetch();
+//    	List<ReservedSandwiches> commandes = new ArrayList<ReservedSandwiches>();
+//    	List<ReservedSandwiches> todayCommandes = new ArrayList<ReservedSandwiches>();
+//    	
+//    	if (allCommandes!=null) {
+//        	for (ReservedSandwiches commande : allCommandes) {
+//        		if (commande.user.iden.equals(userid)) {
+//        			if(commande.date.equals(todayDate)) {
+//    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+//    				todayTotalQuantityCommande += commande.quantity;
+//    				todayCommandes.add(commande);
+//        			}
+//        			else {
+//        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+//        				totalQuantityCommande += commande.quantity;
+//        				commandes.add(commande);
+//        			}
+//    				
+//        		}
+//    		}
+//        }
+//    	
+//    	totalPriceCommande = Math.floor(Math.round(100*totalPriceCommande))/100;
+//    	todayTotalPriceCommande = Math.floor(Math.round(100*todayTotalPriceCommande))/100;
     	
        // render(sandwiches,panier,totalPrice,totalQuantity,userid,commandes,totalPriceCommande,totalQuantityCommande,todayDate,todayCommandes,todayTotalPriceCommande,todayTotalQuantityCommande);
     	
