@@ -113,11 +113,13 @@ public class Application extends Controller {
     	String email = Cache.get(session.getId()+"EMAIL", String.class);
     	String status = Cache.get(session.getId()+"STATUS", String.class);
     	
-    	Date actuelle = new Date();
-     	
-   	 	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-   	 
-   	 	String todayDate = dateFormat.format(actuelle);
+//    	Date actuelle = new Date();
+//     	
+//   	 	DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+//   	 
+//   	 	String todayDate = dateFormat.format(actuelle);
+    	
+    	String todayDate = "03-03-2013";
     	
     	List<Sandwich> sandwiches = Sandwich.findAll();
     	
