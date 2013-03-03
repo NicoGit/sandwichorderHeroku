@@ -119,24 +119,24 @@ public class Application extends Controller {
    	 
    	 	String todayDate = dateFormat.format(actuelle);
     	
-//    	List<Sandwich> sandwiches = Sandwich.findAll();
-//    	
-//    	List<ReservedSandwichesCache> reservedSandwiches = Cache.get(session.getId()+"cachedSandwich", List.class);
-//    	
-//    	List<ReservedSandwichesCache> panier = new ArrayList<ReservedSandwichesCache>();
-//    	
-//    	double totalPrice = 0;
-//    	int totalQuantity = 0;
-//    	
-//    	if (reservedSandwiches!=null) {
-//    	for (ReservedSandwichesCache reservedSandwichCache : reservedSandwiches) {
-//			if (reservedSandwichCache.quantity!=0) {
-//				panier.add(reservedSandwichCache);
-//				totalPrice += reservedSandwichCache.reservedSandwich.prix*reservedSandwichCache.quantity;
-//				totalQuantity += reservedSandwichCache.quantity;
-//			}
-//		}
-//    	}
+    	List<Sandwich> sandwiches = Sandwich.findAll();
+    	
+    	List<ReservedSandwichesCache> reservedSandwiches = Cache.get(session.getId()+"cachedSandwich", List.class);
+    	
+    	List<ReservedSandwichesCache> panier = new ArrayList<ReservedSandwichesCache>();
+    	
+    	double totalPrice = 0;
+    	int totalQuantity = 0;
+    	
+    	if (reservedSandwiches!=null) {
+    	for (ReservedSandwichesCache reservedSandwichCache : reservedSandwiches) {
+			if (reservedSandwichCache.quantity!=0) {
+				panier.add(reservedSandwichCache);
+				totalPrice += reservedSandwichCache.reservedSandwich.prix*reservedSandwichCache.quantity;
+				totalQuantity += reservedSandwichCache.quantity;
+			}
+		}
+    	}
 //    	
 //    	// On limite à deux décimales
 //    	
