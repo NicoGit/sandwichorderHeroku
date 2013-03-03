@@ -8,7 +8,7 @@ import javax.persistence.ManyToMany;
 import play.data.validation.Required;
 import play.db.jpa.Model;
 
-@Entity
+@Entity(name="SandwichUser")
 public class User extends Model{
 	
 	@Required
