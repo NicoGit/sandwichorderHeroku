@@ -154,17 +154,17 @@ public class Application extends Controller {
     	if (allCommandes!=null) {
         	for (ReservedSandwiches commande : allCommandes) {
 //        		if (commande.user.iden.equals(userid)) {
-//        			if(commande.date.equals(todayDate)) {
-//    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-//    				todayTotalQuantityCommande += commande.quantity;
-//    				todayCommandes.add(commande);
-//        			}
-//        			else {
-//        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
-//        				totalQuantityCommande += commande.quantity;
-//        				commandes.add(commande);
-//        			}
-//    				
+        			if(commande.date.equals(todayDate)) {
+    				todayTotalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+    				todayTotalQuantityCommande += commande.quantity;
+    				todayCommandes.add(commande);
+        			}
+        			else {
+        				totalPriceCommande += commande.reservedSandwich.prix*commande.quantity;
+        				totalQuantityCommande += commande.quantity;
+        				commandes.add(commande);
+        			}
+    				
 //        		}
     		}
         }
