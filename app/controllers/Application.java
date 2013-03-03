@@ -172,9 +172,9 @@ public class Application extends Controller {
     	totalPriceCommande = Math.floor(Math.round(100*totalPriceCommande))/100;
     	todayTotalPriceCommande = Math.floor(Math.round(100*todayTotalPriceCommande))/100;
     	
-        render(sandwiches,panier,totalPrice,totalQuantity,userid,commandes,totalPriceCommande,totalQuantityCommande,todayDate,todayCommandes,todayTotalPriceCommande,todayTotalQuantityCommande);
+       // render(sandwiches,panier,totalPrice,totalQuantity,userid,commandes,totalPriceCommande,totalQuantityCommande,todayDate,todayCommandes,todayTotalPriceCommande,todayTotalQuantityCommande);
     	
-   	 	//render();
+   	 	render();
     	
     }  
 
